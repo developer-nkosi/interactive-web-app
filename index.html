@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Web App | Developer Nkosi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.154.0/three.min.js"></script>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Interactive Web App</a>
+            <ul class="nav-links">
+                <li><a href="#todo">To-Do List</a></li>
+                <li><a href="#quiz">Quiz App</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        <div class="nav-overlay"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-card">
+                <h1>Interactive Web App</h1>
+                <p>A collection of interactive JavaScript applications featuring a To-Do List and Quiz App</p>
+                <div class="hero-buttons">
+                    <a href="#todo" class="btn">To-Do List</a>
+                    <a href="#quiz" class="btn btn-outline">Quiz App</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- To-Do List Section -->
+    <section class="section" id="todo">
+        <div class="container">
+            <h2 class="section-title">To-Do List</h2>
+            <div class="app-card">
+                <div class="todo-input-group">
+                    <input type="text" id="todoInput" placeholder="Add a new task or search one..." autofocus>
+                    <button id="addTodoBtn" class="btn">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
+                <div class="todo-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                </div>
+                <ul id="todoList" class="todo-list"></ul>
+                <div class="todo-stats">
+                    <span id="todoCount">0 tasks</span>
+                    <button id="clearCompleted" class="clear-btn">Clear Completed</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz App Section -->
+    <section class="section quiz-section" id="quiz">
+        <div class="container">
+            <h2 class="section-title">Quiz App</h2>
+            <div class="app-card">
+                <!-- Quiz Start Screen -->
+                <div id="quizStart" class="quiz-screen">
+                    <div class="quiz-info">
+                        <i class="fas fa-brain quiz-icon"></i>
+                        <h3>Ultimate Tech Quiz</h3>
+                        <p>Test your knowledge in CS, Algorithms, OOP, and more with <span id="totalQuestions">10</span> questions!</p>
+                        <ul class="quiz-rules">
+                            <li><i class="fas fa-check-circle" style="color: #059669;"></i> <span style="color: #059669; font-weight: bold;">Each correct answer earns 10 points</span></li>
+                            <li><i class="fas fa-times-circle" style="color: #059669;"></i> <span style="color: #059669; font-weight: bold;">No negative marking</span></li>
+                            <li><i class="fas fa-clock" style="color: #059669;"></i> <span style="color: #059669; font-weight: bold;">No time limit per question</span></li>
+                        </ul>
+                    </div>
+                    <button id="startQuizBtn" class="btn btn-large">Start Quiz</button>
+                </div>
+
+                <!-- Quiz Questions Screen -->
+                <div id="quizGame" class="quiz-screen hidden">
+                    <div class="quiz-header">
+                        <div class="quiz-progress">
+                            <span>Question <span id="currentQ">1</span>/<span id="totalQ">10</span></span>
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                        </div>
+                        <div class="quiz-score">
+                            <i class="fas fa-star"></i> Score: <span id="currentScore">0</span>
+                        </div>
+                    </div>
+                    <div class="question-container">
+                        <h3 id="questionText" class="question-text"></h3>
+                        <div id="optionsContainer" class="options-container"></div>
+                    </div>
+                    <button id="nextBtn" class="btn btn-next hidden">Next Question <i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <!-- Quiz Result Screen -->
+                <div id="quizResult" class="quiz-screen hidden">
+                    <div class="result-content">
+                        <div id="resultIcon" class="result-icon"></div>
+                        <h3 id="resultTitle"></h3>
+                        <p id="resultMessage"></p>
+                        <div class="result-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="finalScore">0</span>
+                                <span class="stat-label">Score</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="correctCount">0</span>
+                                <span class="stat-label">Correct</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="wrongCount">0</span>
+                                <span class="stat-label">Wrong</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="percentage">0%</span>
+                                <span class="stat-label">Accuracy</span>
+                            </div>
+                        </div>
+                        <button id="restartQuizBtn" class="btn btn-large">Restart Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Developer Nkosi. Built with vanilla JavaScript.</p>
+            <div class="footer-links">
+                <a href="https://github.com/developer-nkosi" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/wongani-nkosi-36b53b297" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:eugenenkose@gmail.com"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
