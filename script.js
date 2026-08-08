@@ -191,16 +191,16 @@ function initParticles() {
     // Create a star texture
     const createStarTexture = () => {
         const canvas = document.createElement('canvas');
-        canvas.width = 64;
-        canvas.height = 64;
+        canvas.width = 32;
+        canvas.height = 32;
         const ctx = canvas.getContext('2d');
         
         ctx.beginPath();
-        const centerX = 32;
-        const centerY = 32;
+        const centerX = 16;
+        const centerY = 16;
         const points = 5;
-        const outerRadius = 30;
-        const innerRadius = 12;
+        const outerRadius = 14;
+        const innerRadius = 6;
         
         for (let i = 0; i < points * 2; i++) {
             const radius = i % 2 === 0 ? outerRadius : innerRadius;
@@ -219,7 +219,7 @@ function initParticles() {
     };
 
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500;
+    const particlesCount = 800;
     const posArray = new Float32Array(particlesCount * 3);
     const initialPositions = new Float32Array(particlesCount * 3);
     const velocities = new Float32Array(particlesCount * 3);
@@ -228,7 +228,7 @@ function initParticles() {
         const pos = (Math.random() - 0.5) * 15;
         posArray[i] = pos;
         initialPositions[i] = pos;
-        velocities[i] = (Math.random() - 0.5) * 0.01;
+        velocities[i] = (Math.random() - 0.5) * 0.008;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
@@ -238,10 +238,10 @@ function initParticles() {
     const particleColor = isDarkMode ? 0xffffff : 0x000000;
 
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.1,
+        size: 0.04,
         color: particleColor,
         transparent: true,
-        opacity: 0.2,
+        opacity: 0.3,
         map: createStarTexture(),
         alphaTest: 0.001
     });
@@ -283,15 +283,24 @@ function initParticles() {
             if (Math.abs(positions[iy]) > 7.5) velocities[iy] *= -1;
             if (Math.abs(positions[iz]) > 7.5) velocities[iz] *= -1;
 
-            // Cursor interaction
+            // Cursor interaction - repel + swirl
             const dx = mouse.x * 5 - positions[ix];
             const dy = mouse.y * 5 - positions[iy];
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 1.5) {
-                positions[ix] -= dx * 0.05;
-                positions[iy] -= dy * 0.05;
+            if (distance < 2.0) {
+                const force = (2.0 - distance) / 2.0;
+                positions[ix] -= dx * force * 0.08;
+                positions[iy] -= dy * force * 0.08;
+                // Add swirl perpendicular to mouse direction
+                positions[ix] -= dy * force * 0.03;
+                positions[iy] += dx * force * 0.03;
             }
+
+            // Gentle drift back toward initial position
+            positions[ix] += (initialPositions[ix] - positions[ix]) * 0.001;
+            positions[iy] += (initialPositions[iy] - positions[iy]) * 0.001;
+            positions[iz] += (initialPositions[iz] - positions[iz]) * 0.001;
         }
         particlesGeometry.attributes.position.needsUpdate = true;
 

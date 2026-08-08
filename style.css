@@ -33,6 +33,7 @@
         --primary: #ffffff;
         --primary-dark: #ffffff;
         --primary-light: #e4e4e7;
+        --light: #1a1a1a;
         --bg-body: #000000;
         --bg-card: #000000;
         --text-primary: #ffffff;
@@ -119,6 +120,10 @@ nav {
 .hamburger:hover {
     background: var(--primary);
     color: var(--bg-body);
+}
+
+.hamburger:hover .bar {
+    background: var(--bg-body);
 }
 
 .hamburger.active .bar {
