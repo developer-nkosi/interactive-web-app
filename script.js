@@ -238,16 +238,21 @@ function initParticles() {
     const particleColor = isDarkMode ? 0xffffff : 0x000000;
 
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.04,
+        size: 0.06,
         color: particleColor,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.35,
         map: createStarTexture(),
         alphaTest: 0.001
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
+
+    // Update particle color when theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        particlesMaterial.color.setHex(e.matches ? 0xffffff : 0x000000);
+    });
 
     // Mouse interaction
     const mouse = new THREE.Vector2(-100, -100);
