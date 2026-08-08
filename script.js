@@ -186,7 +186,7 @@ function initParticles() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
+    camera.position.z = 8;
 
     // Create a star texture
     const createStarTexture = () => {
@@ -219,13 +219,13 @@ function initParticles() {
     };
 
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 800;
+    const particlesCount = 1600;
     const posArray = new Float32Array(particlesCount * 3);
     const initialPositions = new Float32Array(particlesCount * 3);
     const velocities = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i++) {
-        const pos = (Math.random() - 0.5) * 15;
+        const pos = (Math.random() - 0.5) * 20;
         posArray[i] = pos;
         initialPositions[i] = pos;
         velocities[i] = (Math.random() - 0.5) * 0.008;
@@ -284,9 +284,9 @@ function initParticles() {
             positions[iz] += velocities[iz];
 
             // Boundary check
-            if (Math.abs(positions[ix]) > 7.5) velocities[ix] *= -1;
-            if (Math.abs(positions[iy]) > 7.5) velocities[iy] *= -1;
-            if (Math.abs(positions[iz]) > 7.5) velocities[iz] *= -1;
+            if (Math.abs(positions[ix]) > 10) velocities[ix] *= -1;
+            if (Math.abs(positions[iy]) > 10) velocities[iy] *= -1;
+            if (Math.abs(positions[iz]) > 10) velocities[iz] *= -1;
 
             // Cursor interaction - repel + swirl
             const dx = mouse.x * 5 - positions[ix];
